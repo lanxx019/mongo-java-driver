@@ -719,6 +719,10 @@ public class Mongo {
         return false;
     }
 
+    public String getId() {
+        return _connector.getId();
+    }
+
     // -------
 
     /**
@@ -786,7 +790,7 @@ public class Mongo {
 
         CursorCleanerThread() {
             setDaemon(true);
-            setName("MongoCleaner" + hashCode());
+            setName("cursor-cleaner-" + _connector.getId());
         }
 
         public void run() {

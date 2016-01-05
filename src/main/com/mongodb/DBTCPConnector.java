@@ -429,6 +429,10 @@ public class DBTCPConnector implements DBConnector {
         return getClusterDescription().getByServerAddress(address);
     }
 
+    String getId() {
+        return cluster.getId();
+    }
+
     class MyPort {
 
         DBPort get( boolean keep , ReadPreference readPref, ServerAddress hostNeeded ){

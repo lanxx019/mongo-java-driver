@@ -33,6 +33,8 @@ interface Cluster {
      */
     ClusterDescription getDescription(long maxWaitTime, TimeUnit timeUnit);
 
+    String getId();
+
     /**
      * Get a MongoDB server that matches the criteria defined by the serverSelector
      *

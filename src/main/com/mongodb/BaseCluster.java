@@ -54,6 +54,11 @@ abstract class BaseCluster implements Cluster {
     }
 
     @Override
+    public String getId() {
+        return clusterId;
+    }
+
+    @Override
     public Server getServer(final ServerSelector serverSelector, final long maxWaitTime, final TimeUnit timeUnit) {
         isTrue("open", !isClosed());
 
