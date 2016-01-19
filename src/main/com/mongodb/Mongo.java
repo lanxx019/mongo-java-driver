@@ -18,6 +18,8 @@ package com.mongodb;
 
 import org.bson.io.PoolOutputBuffer;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * A database connection with internal connection pooling. For most applications, you should have one Mongo instance
@@ -72,6 +75,7 @@ import java.util.logging.Logger;
 public class Mongo {
 
     static Logger logger = Logger.getLogger(Bytes.LOGGER.getName() + ".Mongo");
+    static Logger startupLogger = Logger.getLogger(Bytes.LOGGER.getName() + ".Mongo.Startup");
 
 
     // Make sure you don't change the format of these two static variables. A preprocessing regexp
@@ -319,6 +323,13 @@ public class Mongo {
         _applyMongoOptions();
 
         _connector = new DBTCPConnector( this  );
+
+        if (startupLogger.isLoggable(Level.INFO)) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            new Exception().printStackTrace(pw);
+            startupLogger.info("Created Mongo instance ID " + getId() + " with authority " + authority + " and options " + options + " from " + sw.toString());
+        }
 
         _connector.start();
         if (_options.cursorFinalizerEnabled) {
